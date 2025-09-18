@@ -20,21 +20,7 @@ jobs:
           cd app/
           pytest
 
-  build-push-container:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Build the Docker image
-        run: |
-          docker build -t datascientestuser/fast-api:${GITHUB_SHA} .
-          docker tag  datascientestuser/fast-api:${GITHUB_SHA} datascientestuser/fast-api:latest
-          docker images
-          docker run -d -p 80:80 --name fastapi datascientestuser/fast-api:${GITHUB_SHA}
-          sleep 10
-          docker login -u ${{ secrets.DOCKER_USERNAME  }} -p ${{ secrets.DOCKER_PASSWORD  }}
-          docker push datascientestuser/fast-api:${GITHUB_SHA}
-          docker push datascientestuser/fast-api:latest
+
   deploy:
     needs: build-push-container
     name: deploy
