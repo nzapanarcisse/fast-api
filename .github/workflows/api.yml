@@ -20,9 +20,7 @@ jobs:
           cd app/
           pytest
 
-
   deploy:
-    needs: build-push-container
     name: deploy
     runs-on: ubuntu-latest
     steps:
@@ -43,5 +41,3 @@ jobs:
             curl localhost:9000
             ls 
             sudo docker images
-
-
